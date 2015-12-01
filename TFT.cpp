@@ -64,8 +64,7 @@ unsigned char TFT::getData(void)
 {
     unsigned char data=0;
     delay(1);
-    data |= ((PIND&0xfc)>>2);
-    data |= ((PINB&0x03)<<6);
+    for(int x=2; x<10; x++){data |= digitalRead(x)<<(x-2);}
     return data;
 }
 
