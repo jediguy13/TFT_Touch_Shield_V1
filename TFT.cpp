@@ -33,6 +33,7 @@
 
 void TFT::pushData(unsigned char data)
 {
+    all_pin_output();
     all_pin_low();
 /*#ifdef SEEEDUINO
     PORTD |= (data<<2);
@@ -50,21 +51,15 @@ void TFT::pushData(unsigned char data)
 
 #ifdef MAPLE
 #endif*/
-    int i=9;
-    for(int x=2; x<10; x++){pinMode(x,OUTPUT);}
-    for(byte mask=1; mask>0; mask<<=1)
-    {
-      if(data & mask){digitalWrite(i,HIGH);}
-      else{digitalWrite(i,LOW);}
-      i--;
-    }
+    
+    for(int x=2; x<10; x++){digitalWrite(x,bitRead(data,x-2));}
 }
 
 unsigned char TFT::getData(void)
 {
     unsigned char data=0;
     delay(1);
-    for(int x=2; x<10; x++){data |= digitalRead(x)<<(x-2);}
+    for(int x=2; x<10; x++){bitWrite(data,x-2,digitalRead(x));}
     return data;
 }
 
