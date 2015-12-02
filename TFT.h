@@ -52,7 +52,7 @@
 #define MAX_X	240
 #define MAX_Y	320
 
-#ifdef SEEEDUINO
+/*#ifdef SEEEDUINO
 
 //========================================
 #define DDR_CS      DDRB
@@ -138,6 +138,45 @@
 #ifdef MAPLE
  // not yet implemented
 #endif
+*/
+
+//==================/CS=====================
+#define DDR_CS      DDRB
+#define PORT_CS     PORTB
+#define CS_BIT      0x10
+#define CS_OUTPUT   {pinMode(10,OUTPUT);}
+#define CS_HIGH     {digitalWrite(10,HIGH);}
+#define CS_LOW      {digitalWrite(10,LOW);}
+
+//------------------RS----------------------
+
+#define DDR_RS      DDRB
+#define PORT_RS     PORTB
+#define RS_BIT      0x20
+#define RS_OUTPUT   {pinMode(11,OUTPUT);}
+#define RS_HIGH     {digitalWrite(11,HIGH);}
+#define RS_LOW      {digitalWrite(11,LOW);}
+
+//------------------WR----------------------
+
+#define DDR_WR      DDRB
+#define PORT_WR     PORTB
+#define WR_BIT      0x40
+#define WR_OUTPUT   {pinMode(12,OUTPUT);}
+#define WR_HIGH     {digitalWrite(12,HIGH);}
+#define WR_LOW      {digitalWrite(12,LOW);}
+#define WR_RISING   {WR_HIGH;WR_LOW;}
+
+//------------------RD---------------------
+
+#define DDR_RD      DDRB
+#define PORT_RD     PORTB
+#define RD_BIT      0x80
+#define RD_OUTPUT   {pinMode(13,OUTPUT);}
+#define RD_HIGH     {digitalWrite(13,HIGH);}
+#define RD_LOW      {digitalWrite(13,LOW);}
+#define RD_RISING   {RD_HIGH;RD_LOW;}
+//========================================
 
 /**Macro definitions for char display direction**/
 #define LEFT2RIGHT 0

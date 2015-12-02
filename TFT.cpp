@@ -25,13 +25,17 @@
     Add funtion:setDisplayDirect.
     Add more conditional statements in funtions,fillRectangle,drawChar,drawString 
     to deal with different directions displaying.
+  2015.12.1 by jediguy13
+    Add support for all devices by changing bit mask operators 
+    to regular pinModes and digitalWrites
 */
 #include "TFT.h" 
 
 void TFT::pushData(unsigned char data)
 {
+    all_pin_output();
     all_pin_low();
-#ifdef SEEEDUINO
+/*#ifdef SEEEDUINO
     PORTD |= (data<<2);
     PORTB |= (data>>6);
 #endif
@@ -46,15 +50,16 @@ void TFT::pushData(unsigned char data)
 #endif
 
 #ifdef MAPLE
-#endif
+#endif*/
+    
+    for(int x=2; x<10; x++){digitalWrite(x,bitRead(data,x-2));}
 }
 
 unsigned char TFT::getData(void)
 {
     unsigned char data=0;
     delay(1);
-    data |= ((PIND&0xfc)>>2);
-    data |= ((PINB&0x03)<<6);
+    for(int x=2; x<10; x++){bitWrite(data,x-2,digitalRead(x));}
     return data;
 }
 
@@ -475,7 +480,7 @@ void TFT::drawString(char *string,unsigned int poX, unsigned int poY,unsigned in
 
 void TFT::all_pin_input(void)
 {
-#ifdef SEEEDUINO
+/*#ifdef SEEEDUINO
     DDRD &=~ 0xfc;
     DDRB &=~ 0x03;
 #endif
@@ -488,13 +493,14 @@ void TFT::all_pin_input(void)
 
 #ifdef MAPLE
 
-#endif
+#endif*/
+for(int x=2; x<10; x++){pinMode(x,INPUT);}
 
 }
 
 void TFT::all_pin_output(void)
 {
-#ifdef SEEEDUINO
+/*#ifdef SEEEDUINO
     DDRD |= 0xfc;
     DDRB |= 0x03;
 #endif
@@ -507,12 +513,13 @@ void TFT::all_pin_output(void)
 
 #ifdef MAPLE
 
-#endif
+#endif*/
+for(int x=2; x<10; x++){pinMode(x,OUTPUT);}
 }
 
 void TFT::all_pin_low(void)
 {
-#ifdef SEEEDUINO
+/*#ifdef SEEEDUINO
     PORTD &=~ 0xfc;
     PORTB &=~ 0x03;
 #endif
@@ -525,7 +532,8 @@ void TFT::all_pin_low(void)
 
 #ifdef MAPLE
 
-#endif
+#endif*/
+for(int x=2; x<10; x++){digitalWrite(x,LOW);}
 }
 
 TFT Tft=TFT();
