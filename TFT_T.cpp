@@ -26,33 +26,24 @@
     Add more conditional statements in funtions,fillRectangle,drawChar,drawString 
     to deal with different directions displaying.
   2015.12.1 by jediguy13
-    Add support for all devices by changing bit mask operators 
-    to regular pinModes and digitalWrites
+    Add support for arduino due by changing bit mask things
 */
-#include "TFT.h" 
+#include "TFT_T.h" 
 
 void TFT::pushData(unsigned char data)
 {
     all_pin_output();
     all_pin_low();
-/*#ifdef SEEEDUINO
-    PORTD |= (data<<2);
-    PORTB |= (data>>6);
-#endif
-
-#ifdef MEGA
-
-    PORTE |= ((data<<4) & (0x30));
-    PORTG |= ((data<<3) & (0x20));
-    PORTE |= ((data & 0x08));
-    PORTH |= ((data>>1) & (0x78));
-
-#endif
-
-#ifdef MAPLE
-#endif*/
     
-    for(int x=2; x<10; x++){digitalWrite(x,bitRead(data,x-2));}
+    //for(int x=2; x<10; x++){digitalWrite(x,bitRead(data,x-2));} is slow
+    REG_PIOB_ODSR |= (bitRead(data,0)<<25);  //why is pin 2 here?
+    REG_PIOC_ODSR |= (bitRead(data,1)<<28);  //and why is pin 3 just 1 separate?
+    REG_PIOC_ODSR |= (bitRead(data,2)<<26);
+    REG_PIOC_ODSR |= (bitRead(data,3)<<25);
+    REG_PIOC_ODSR |= (bitRead(data,4)<<24);
+    REG_PIOC_ODSR |= (bitRead(data,5)<<23);
+    REG_PIOC_ODSR |= (bitRead(data,6)<<22);
+    REG_PIOC_ODSR |= (bitRead(data,7)<<21);
 }
 
 unsigned char TFT::getData(void)
@@ -480,59 +471,17 @@ void TFT::drawString(char *string,unsigned int poX, unsigned int poY,unsigned in
 
 void TFT::all_pin_input(void)
 {
-/*#ifdef SEEEDUINO
-    DDRD &=~ 0xfc;
-    DDRB &=~ 0x03;
-#endif
-
-#ifdef MEGA
-    DDRE &=~ 0x38;
-    DDRG &=~ 0x20;
-    DDRH &=~ 0x78;
-#endif
-
-#ifdef MAPLE
-
-#endif*/
 for(int x=2; x<10; x++){pinMode(x,INPUT);}
 
 }
 
 void TFT::all_pin_output(void)
 {
-/*#ifdef SEEEDUINO
-    DDRD |= 0xfc;
-    DDRB |= 0x03;
-#endif
-
-#ifdef MEGA
-    DDRE |= 0x38;
-    DDRG |= 0x20;
-    DDRH |= 0x78;
-#endif
-
-#ifdef MAPLE
-
-#endif*/
 for(int x=2; x<10; x++){pinMode(x,OUTPUT);}
 }
 
 void TFT::all_pin_low(void)
 {
-/*#ifdef SEEEDUINO
-    PORTD &=~ 0xfc;
-    PORTB &=~ 0x03;
-#endif
-
-#ifdef MEGA
-    PORTE &=~ 0x38;
-    PORTG &=~ 0x20;
-    PORTH &=~ 0x78;
-#endif
-
-#ifdef MAPLE
-
-#endif*/
 for(int x=2; x<10; x++){digitalWrite(x,LOW);}
 }
 
