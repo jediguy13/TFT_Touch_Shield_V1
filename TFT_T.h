@@ -30,10 +30,9 @@
 #ifndef TFT_h
 #define TFT_h
 
-#define SEEEDUINO
 
 //Basic Colors
-#define RED		0xf800
+#define RED		   0xf800
 #define GREEN		0x07e0
 #define BLUE		0x001f
 #define BLACK		0x0000
@@ -52,129 +51,42 @@
 #define MAX_X	240
 #define MAX_Y	320
 
-/*#ifdef SEEEDUINO
-
-//========================================
-#define DDR_CS      DDRB
-#define PORT_CS     PORTB
-#define CS_BIT      0x04
-#define CS_OUTPUT   {DDR_CS|=CS_BIT;}
-#define CS_HIGH     {PORT_CS|=CS_BIT;}
-#define CS_LOW      {PORT_CS&=~CS_BIT;}
-
-//-----------------------------------------
-
-#define DDR_RS      DDRB
-#define PORT_RS     PORTB
-#define RS_BIT      0x08
-#define RS_OUTPUT   {DDR_RS|=RS_BIT;}
-#define RS_HIGH     {PORT_RS|=RS_BIT;}
-#define RS_LOW      {PORT_RS&=~RS_BIT;}
-
-//-----------------------------------------
-
-#define DDR_WR      DDRB
-#define PORT_WR     PORTB
-#define WR_BIT      0x10
-#define WR_OUTPUT   {DDR_WR|=WR_BIT;}
-#define WR_HIGH     {PORT_WR|=WR_BIT;}
-#define WR_LOW      {PORT_WR&=~WR_BIT;}
-#define WR_RISING   {PORT_WR|=WR_BIT;PORT_WR&=~WR_BIT;}
-
-//-----------------------------------------
-
-#define DDR_RD      DDRB
-#define PORT_RD     PORTB
-#define RD_BIT      0x20
-#define RD_OUTPUT   {DDR_RD|=RD_BIT;}
-#define RD_HIGH     {PORT_RD|=RD_BIT;}
-#define RD_LOW      {PORT_RD&=~RD_BIT;}
-#define RD_RISING   {PORT_RD|=RD_BIT;PORT_RD&=~RD_BIT;}
-//========================================
-
-#endif
-
-#ifdef MEGA
-//==================/CS=====================
-#define DDR_CS      DDRB
-#define PORT_CS     PORTB
-#define CS_BIT      0x10
-#define CS_OUTPUT   {DDR_CS|=CS_BIT;}
-#define CS_HIGH     {PORT_CS|=CS_BIT;}
-#define CS_LOW      {PORT_CS&=~CS_BIT;}
-
-//------------------RS----------------------
-
-#define DDR_RS      DDRB
-#define PORT_RS     PORTB
-#define RS_BIT      0x20
-#define RS_OUTPUT   {DDR_RS|=RS_BIT;}
-#define RS_HIGH     {PORT_RS|=RS_BIT;}
-#define RS_LOW      {PORT_RS&=~RS_BIT;}
-
-//------------------WR----------------------
-
-#define DDR_WR      DDRB
-#define PORT_WR     PORTB
-#define WR_BIT      0x40
-#define WR_OUTPUT   {DDR_WR|=WR_BIT;}
-#define WR_HIGH     {PORT_WR|=WR_BIT;}
-#define WR_LOW      {PORT_WR&=~WR_BIT;}
-#define WR_RISING   {PORT_WR|=WR_BIT;PORT_WR&=~WR_BIT;}
-
-//------------------RD---------------------
-
-#define DDR_RD      DDRB
-#define PORT_RD     PORTB
-#define RD_BIT      0x80
-#define RD_OUTPUT   {DDR_RD|=RD_BIT;}
-#define RD_HIGH     {PORT_RD|=RD_BIT;}
-#define RD_LOW      {PORT_RD&=~RD_BIT;}
-#define RD_RISING   {PORT_RD|=RD_BIT;PORT_RD&=~RD_BIT;}
-//========================================
-
-#endif
-
-#ifdef MAPLE
- // not yet implemented
-#endif
-*/
 
 //==================/CS=====================
 #define DDR_CS      DDRB
 #define PORT_CS     PORTB
-#define CS_BIT      0x10
+#define CS_BIT      1<<29
 #define CS_OUTPUT   {pinMode(10,OUTPUT);}
-#define CS_HIGH     {digitalWrite(10,HIGH);}
-#define CS_LOW      {digitalWrite(10,LOW);}
+#define CS_HIGH     {REG_PIOC_ODSR |= CS_BIT;}
+#define CS_LOW      {REG_PIOC_ODSR &= ~(CS_BIT);}
 
 //------------------RS----------------------
 
 #define DDR_RS      DDRB
 #define PORT_RS     PORTB
-#define RS_BIT      0x20
+#define RS_BIT      1<<7
 #define RS_OUTPUT   {pinMode(11,OUTPUT);}
-#define RS_HIGH     {digitalWrite(11,HIGH);}
-#define RS_LOW      {digitalWrite(11,LOW);}
+#define RS_HIGH     {REG_PIOD_ODSR |= RS_BIT;}
+#define RS_LOW      {REG_PIOD_ODSR &= ~(RS_BIT);}
 
 //------------------WR----------------------
 
 #define DDR_WR      DDRB
 #define PORT_WR     PORTB
-#define WR_BIT      0x40
+#define WR_BIT      1<<8
 #define WR_OUTPUT   {pinMode(12,OUTPUT);}
-#define WR_HIGH     {digitalWrite(12,HIGH);}
-#define WR_LOW      {digitalWrite(12,LOW);}
+#define WR_HIGH     {REG_PIOD_ODSR |= WR_BIT;}
+#define WR_LOW      {REG_PIOD_ODSR &= ~(WR_BIT);}
 #define WR_RISING   {WR_HIGH;WR_LOW;}
 
 //------------------RD---------------------
 
 #define DDR_RD      DDRB
 #define PORT_RD     PORTB
-#define RD_BIT      0x80
+#define RD_BIT      1<<27
 #define RD_OUTPUT   {pinMode(13,OUTPUT);}
-#define RD_HIGH     {digitalWrite(13,HIGH);}
-#define RD_LOW      {digitalWrite(13,LOW);}
+#define RD_HIGH     {REG_PIOB_ODSR |= RD_BIT;}
+#define RD_LOW      {REG_PIOB_ODSR &= ~(RD_BIT);}
 #define RD_RISING   {RD_HIGH;RD_LOW;}
 //========================================
 
@@ -224,4 +136,3 @@ private:
 extern TFT Tft;
 
 #endif
-
